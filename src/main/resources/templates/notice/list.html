@@ -164,9 +164,18 @@
 </div>
 
 <script th:inline="javascript">
-    var msg = [[${msg}]];
+    var postId = [[${msg}]];
+    var actionType = [[${actionType}]];
 
-    if (msg) {
+    if (postId && actionType) {
+        $(".modal-title").text("알림");
+
+        if (actionType === "add") {
+            $(".modal-body p").text("게시글 #" + postId + "이(가) 성공적으로 추가되었습니다.");
+        } else if (actionType === "delete") {
+            $(".modal-body p").text("게시글 #" + postId + "이(가) 성공적으로 삭제되었습니다.");
+        }
+
         $(".modal").show();
     }
 
@@ -174,9 +183,8 @@
 
     // 검색 함수
     function performSearch(e) {
-        e.preventDefault();  // 폼의 기본 동작 막기
+        e.preventDefault();
 
-        // 검색 종류가 선택되지 않았을 때
         if ($("select[name='type']").val() === '') {
             $(".modal-title").text("알림");
             $(".modal-body p").text("검색 종류를 선택해주세요.");
@@ -184,7 +192,6 @@
             return;
         }
 
-        // 검색어가 비어있는지 확인
         if ($("input[name='keyword']").val().trim() === '') {
             $(".modal-title").text("알림");
             $(".modal-body p").text("검색어를 입력해주세요.");
@@ -192,22 +199,19 @@
             return;
         }
 
-        form.submit();  // 검색 조건이 맞으면 폼 제출
+        form.submit();
     }
 
-    // 검색 버튼 클릭 시
     $(".btn-search").click(function (e) {
         performSearch(e);
     });
 
-    // 엔터 키를 눌렀을 때 검색 동작
     $("#searchForm input").keypress(function (e) {
-        if (e.which === 13) {  // 엔터 키 코드가 13
+        if (e.which === 13) {
             performSearch(e);
         }
     });
 
-    // 취소 버튼 클릭 시 입력값 초기화 후 폼 제출
     $(".btn-cancel").click(function (e) {
         $("input[name='keyword']").val('');
         $("select[name='type']").prop('selectedIndex', 0);

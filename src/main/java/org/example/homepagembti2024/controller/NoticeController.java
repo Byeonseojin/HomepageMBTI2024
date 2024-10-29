@@ -33,9 +33,10 @@ public class NoticeController {
     }
 
     @PostMapping("/register")
-    public String registerPost(NoticeDTO dto, RedirectAttributes redirectAttributes){
-        Long bno = noticeService.register(dto);
-        redirectAttributes.addFlashAttribute("msg", bno);
+    public String registerPost(NoticeDTO dto, RedirectAttributes redirectAttributes) {
+        Long postId = noticeService.register(dto); // Assuming this returns the ID of the new post
+        redirectAttributes.addFlashAttribute("msg", postId); // ID of the newly added post
+        redirectAttributes.addFlashAttribute("actionType", "add");
         return "redirect:/notice/list";
     }
 
@@ -46,9 +47,10 @@ public class NoticeController {
     }
 
     @PostMapping("/remove")
-    public String remove(long bno, RedirectAttributes redirectAttributes){
+    public String remove(long bno, RedirectAttributes redirectAttributes) {
         noticeService.removeWithReplies(bno);
-        redirectAttributes.addFlashAttribute("msg", bno);
+        redirectAttributes.addFlashAttribute("msg", bno); // ID of the deleted post
+        redirectAttributes.addFlashAttribute("actionType", "delete");
         return "redirect:/notice/list";  // /board/list -> /notice/list로 수정
     }
 

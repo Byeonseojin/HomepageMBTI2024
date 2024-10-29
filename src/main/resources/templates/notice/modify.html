@@ -88,7 +88,6 @@
 <script th:inline="javascript">
   let actionFrom = $("form");
 
-  // 삭제 버튼 클릭 시 확인창 띄우기
   $(".removeBtn").click(function () {
     if (confirm("정말 삭제하시겠습니까?")) {
       actionFrom.attr("action", "/notice/remove")
@@ -112,7 +111,6 @@
     actionFrom.append(page);
     actionFrom.append(type);
     actionFrom.append(keyword);
-
     actionFrom.attr("action","/notice/list")
             .attr("method", "get")
             .submit();
